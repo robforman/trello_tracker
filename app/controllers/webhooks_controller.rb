@@ -11,6 +11,10 @@ class WebhooksController < ApplicationController
         reset_point_name(before_list)
         after_list = trello.find(:lists, webhook.after_list_id)
         reset_point_name(after_list)
+      when :card_name_change
+        card = trello.find(:cards, webhook.card_id)
+        current_list = card.list
+        reset_point_name(current_list)
     end
     render json: {success: true}
   end

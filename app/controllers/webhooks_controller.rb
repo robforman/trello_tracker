@@ -2,7 +2,7 @@ class WebhooksController < ApplicationController
   respond_to :json
 
   def create
-    return head(:ok) if request.head?
+    return head(:ok) if request.head? || request.get?
 
     webhook = TrelloWebhookAction.new(request.raw_post)
     case webhook.change_type

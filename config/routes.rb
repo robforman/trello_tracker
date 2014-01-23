@@ -1,6 +1,6 @@
 TrelloTracker::Application.routes.draw do
   get '/auth/:provider/callback', to: 'sessions#create'
-  match '/webhooks', to: 'webhooks#create', via: [:head, :post]
+  match '/webhooks', to: 'webhooks#create', via: [:head, :get, :post]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -29,6 +29,10 @@ class TrelloWebhookAction
         return :create_card
       end
 
+      if action.fetch("type", "") == "deleteCard"
+        return :delete_card
+      end
+
       :unknown
     end
   end
@@ -46,13 +50,13 @@ class TrelloWebhookAction
   end
 
   def card_id
-    acceptable_types = [:card_name_change, :create_card, :archive_card]
+    acceptable_types = [:card_name_change, :create_card, :delete_card, :archive_card]
     raise StandardError.new("Mismatch change_type: #{change_type}") unless acceptable_types.include?(change_type)
     action.fetch("data").fetch("card").fetch("id")
   end
 
   def list_id
-    acceptable_types = [:create_card]
+    acceptable_types = [:create_card, :delete_card]
     raise StandardError.new("Mismatch change_type: #{change_type}") unless acceptable_types.include?(change_type)
     action.fetch("data").fetch("list").fetch("id")
   end

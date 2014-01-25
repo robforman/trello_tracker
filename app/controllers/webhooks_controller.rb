@@ -22,6 +22,9 @@ class WebhooksController < ApplicationController
       when :create_card
         list = trello.find(:lists, webhook.list_id)
         reset_point_name(list)
+      when :delete_card
+        list = trello.find(:lists, webhook.list_id)
+        reset_point_name(list)
     end
     render json: {success: true}
   end

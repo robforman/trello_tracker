@@ -15,6 +15,10 @@ class WebhooksController < ApplicationController
         card = trello.find(:cards, webhook.card_id)
         current_list = card.list
         reset_point_name(current_list)
+      when :archive_card
+        card = trello.find(:cards, webhook.card_id)
+        current_list = card.list
+        reset_point_name(current_list)
       when :create_card
         list = trello.find(:lists, webhook.list_id)
         reset_point_name(list)

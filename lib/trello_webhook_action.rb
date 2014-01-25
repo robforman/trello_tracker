@@ -19,6 +19,10 @@ class TrelloWebhookAction
         if action.fetch("data", {}).fetch("old", {}).has_key?("name")
           return :card_name_change
         end
+
+        if action.fetch("data", {}).fetch("old", {}).has_key?("closed")
+          return :archive_card
+        end
       end
 
       if action.fetch("type", "") == "createCard"
@@ -42,7 +46,7 @@ class TrelloWebhookAction
   end
 
   def card_id
-    acceptable_types = [:card_name_change, :create_card]
+    acceptable_types = [:card_name_change, :create_card, :archive_card]
     raise StandardError.new("Mismatch change_type: #{change_type}") unless acceptable_types.include?(change_type)
     action.fetch("data").fetch("card").fetch("id")
   end

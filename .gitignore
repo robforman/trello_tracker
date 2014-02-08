@@ -17,5 +17,6 @@
 
 # Ignore application configuration
 /config/application.yml
+/config/database.yml
 .ruby-version
 .ruby-gemset

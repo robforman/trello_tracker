@@ -1,14 +1,18 @@
 class WebhooksController < ApplicationController
+  skip_before_filter :ensure_current_user, only: [:create]
   respond_to :json
 
   def index
+    trello = build_trello_client(current_user)
     token = trello.find(:token, current_user.oauth_token, webhooks: true)
     @webhooks = token.webhooks
   end
 
   def create
+    user = User.find(params[:user_id])
     return head(:ok) if request.head? || request.get?
 
+    trello = build_trello_client(user)
     webhook = TrelloWebhookAction.new(request.raw_post)
     case webhook.change_type
       when :card_list_change
@@ -48,12 +52,12 @@ class WebhooksController < ApplicationController
     PointCalculator.with_names(names).sum
   end
 
-  def trello
+  def build_trello_client(user)
     @trello ||= Trello::Client.new(
       consumer_key: ENV.fetch('TRELLO_KEY'),
       consumer_secret: ENV.fetch('TRELLO_SECRET'),
-      oauth_token: current_user.oauth_token,
-      oauth_token_secret: current_user.oauth_token_secret
+      oauth_token: user.oauth_token,
+      oauth_token_secret: user.oauth_token_secret
     )
   end
 end

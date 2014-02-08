@@ -1,6 +1,8 @@
 TrelloTracker::Application.routes.draw do
-  match '/webhooks', to: 'webhooks#create', via: [:head, :post]
-  get '/webhooks', to: "webhooks#index"
+  resources :users, only: [] do
+    resources :webhooks, only: [:create, :index]
+    match '/webhooks', to: 'webhooks#create', via: [:head]
+  end
 
   resource :sessions, only: [:new, :create, :destroy]
   get '/auth/:provider/callback', to: 'sessions#create'

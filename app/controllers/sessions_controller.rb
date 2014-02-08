@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   skip_before_filter :ensure_current_user, only: [:new, :create]
 
   def new
-    redirect_to webhooks_path if current_user
+    redirect_to user_webhooks_path(current_user) if current_user
   end
 
   def create

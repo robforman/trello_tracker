@@ -11,9 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20140208031931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "users", force: true do |t|
+    t.string   "member_id",          null: false
+    t.string   "username",           null: false
+    t.string   "full_name",          null: false
+    t.string   "url",                null: false
+    t.string   "oauth_token",        null: false
+    t.string   "oauth_token_secret", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+
+  add_index "users", ["member_id"], name: "index_users_on_member_id", unique: true, using: :btree
 
 end

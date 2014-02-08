@@ -1,6 +1,11 @@
 class WebhooksController < ApplicationController
   respond_to :json
 
+  def index
+    token = trello.find(:token, current_user.oauth_token, webhooks: true)
+    @webhooks = token.webhooks
+  end
+
   def create
     return head(:ok) if request.head? || request.get?
 
@@ -47,8 +52,8 @@ class WebhooksController < ApplicationController
     @trello ||= Trello::Client.new(
       consumer_key: ENV.fetch('TRELLO_KEY'),
       consumer_secret: ENV.fetch('TRELLO_SECRET'),
-      oauth_token: ENV.fetch('TEST_OAUTH_TOKEN'),
-      oauth_token_secret: ENV.fetch('TEST_OAUTH_TOKEN')
+      oauth_token: current_user.oauth_token,
+      oauth_token_secret: current_user.oauth_token_secret
     )
   end
 end

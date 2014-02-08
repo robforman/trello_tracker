@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <th>id</td>
+    <th>description</td>
+    <th>boardId</td>
+    <th>callbackURL</td>
+    <th>active</td>
+  </tr>
+
+  <% @webhooks.each do |webhook| %>
+    <tr>
+      <td><%= webhook['id'] %></td>
+      <td><%= webhook['description'] %></td>
+      <td><%= webhook['idModel'] %></td>
+      <td><%= webhook['callbackURL'] %></td>
+      <td><%= webhook['active'] %></td>
+    </tr>
+  <% end %>
+</table>

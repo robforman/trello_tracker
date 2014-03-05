@@ -1,7 +1,8 @@
 source 'https://rubygems.org'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+ruby '2.1.0'
+
+gem 'rails', '4.0.3'
 
 gem 'pg'
 
@@ -12,3 +13,7 @@ gem 'rspec-rails'
 
 gem 'omniauth-trello'
 gem 'ruby-trello', require: 'trello'
+
+group :production do
+  gem 'rails_12factor'
+end

@@ -8,10 +8,10 @@ class PointCalculator
   end
 
   def sum
-    total = 0
+    total = 0.0
     names.each do |name|
-      if m = name.match(/^\s*(\d+)\s*-/)
-        total += m[1].to_i
+      if m = name.match(/^\s*([0-9]{1,2}(?:\.[0-9]{1,2})?)\s*-/)
+        total += m[1].to_f
       end
     end
     total

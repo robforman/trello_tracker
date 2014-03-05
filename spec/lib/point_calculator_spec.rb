@@ -22,5 +22,10 @@ describe PointCalculator do
       names << "3 super sloppy won't count"
       expect(PointCalculator.with_names(names).sum).to eq(5)
     end
+
+    it "works with floats" do
+      names << "0.5 - Small task"
+      expect(PointCalculator.with_names(names).sum).to eq(5.5)
+    end
   end
 end

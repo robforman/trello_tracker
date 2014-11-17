@@ -6,7 +6,7 @@ class PointedName
   end
 
   def with_points(v)
-    name.gsub(/\(([0-9]{1,2}(?:\.[0-9]{1,2})?)\)/, "(#{trim(v)})")
+    name.gsub(/\((\d+(?:\.\d*)?)\)/, "(#{trim(v)})")
   end
 
   private 

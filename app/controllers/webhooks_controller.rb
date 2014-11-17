@@ -14,6 +14,7 @@ class WebhooksController < ApplicationController
 
     trello = build_trello_client(user)
     webhook = TrelloWebhookAction.new(request.raw_post)
+    Rails.logger.info("Received webhook.change_type of '#{webhook.change_type}'")
     case webhook.change_type
       when :card_list_change
         before_list = trello.find(:lists, webhook.before_list_id)
@@ -41,8 +42,10 @@ class WebhooksController < ApplicationController
   protected
 
   def reset_point_name(list)
+    old_name = list.name
     current_points = points_for(list: list)
     list.name = PointedName.new(list.name).with_points(current_points)
+    Rails.logger.info("Updating list.name from '#{old_name}' to '#{list.name}'")
     list.save
   end
 

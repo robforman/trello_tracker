@@ -10,30 +10,17 @@ class TrelloWebhookAction
   end
 
   def change_type
-    @change_type ||= begin
-      if action.fetch("type", "") == "updateCard"
-        if action.fetch("data", {}).has_key?("listBefore") && action.fetch("data", {}).has_key?("listAfter")
-          return :card_list_change
-        end
+    return :unknown unless ["updateCard", "createCard", "deleteCard"].include?(action["type"])
 
-        if action.fetch("data", {}).fetch("old", {}).has_key?("name")
-          return :card_name_change
-        end
-
-        if action.fetch("data", {}).fetch("old", {}).has_key?("closed")
-          return :archive_card
-        end
-      end
-
-      if action.fetch("type", "") == "createCard"
+    case action["type"]
+      when "updateCard"
+        return :card_list_change if has_listBefore? && has_listAfter?
+        return :card_name_change if was_renamed?
+        return :archive_card if was_closed?
+      when "createCard"
         return :create_card
-      end
-
-      if action.fetch("type", "") == "deleteCard"
+      when "deleteCard"
         return :delete_card
-      end
-
-      :unknown
     end
   end
 
@@ -59,5 +46,31 @@ class TrelloWebhookAction
     acceptable_types = [:create_card, :delete_card]
     raise StandardError.new("Mismatch change_type: #{change_type}") unless acceptable_types.include?(change_type)
     action.fetch("data").fetch("list").fetch("id")
+  end
+
+  private
+
+  def card_data
+    action.fetch("data", {})
+  end
+
+  def old_data
+    card_data.fetch("old", {})
+  end
+
+  def has_listBefore?
+    card_data.has_key?("listBefore")
+  end
+
+  def has_listAfter?
+    card_data.has_key?("listAfter")
+  end
+
+  def was_renamed?
+    old_data.has_key?("name")
+  end
+
+  def was_closed?
+    old_data.has_key?("closed")
   end
 end

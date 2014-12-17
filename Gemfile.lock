@@ -29,6 +29,8 @@ GEM
     arel (4.0.2)
     atomic (1.1.15)
     builder (3.1.4)
+    crack (0.4.2)
+      safe_yaml (~> 1.0.0)
     diff-lcs (1.2.5)
     dotenv (0.10.0)
     erubis (2.7.0)
@@ -106,6 +108,7 @@ GEM
       json
       oauth (~> 0.4.5)
       rest-client (~> 1.6.7)
+    safe_yaml (1.0.4)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -123,6 +126,10 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.38)
+    vcr (2.9.3)
+    webmock (1.17.4)
+      addressable (>= 2.2.7)
+      crack (>= 0.3.2)
 
 PLATFORMS
   ruby
@@ -137,3 +144,5 @@ DEPENDENCIES
   rails_12factor
   rspec-rails
   ruby-trello
+  vcr
+  webmock
